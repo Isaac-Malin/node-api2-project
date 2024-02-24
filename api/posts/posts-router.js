@@ -19,12 +19,41 @@ router.get('/:id', (req, res) => {
   posts.findById(id)
     .then(post => {
       if(!post) {
-        res.status(404).json({ message: "The post with the specified ID does not exist" })
+        return res.status(404).json({ message: "The post with the specified ID does not exist" })
       }
       res.status(200).json(post)
     })
     .catch(err => {
       res.status(500).json({ message: "The post information could not be retrieved" })
+    })
+})
+
+router.post('/', (req, res) => {
+  if (!req.body.title || !req.body.contents) {
+    return res.status(400).json({ message: "Please provide title and contents for the post"})
+  }
+  posts.insert(req.body)
+    .then(post => {
+      res.status(201).json(post)
+    })
+    .catch(err => {
+      res.status(500).json({message: "There was an error while saving the post to the database"})
+    })
+})
+
+router.put('/:id', (req, res) => {
+  if (!req.body.title || !req.body.contents) {
+    return res.status(400).json({ message: "Please provide title and contents for the post"})
+  }
+  posts.update(req.params.id, req.body)
+    .then(post => {
+      if(!post) {
+        return res.status(404).json({ message: "The post with the specified ID does not exist" })
+      }
+      res.status(200).json(post)
+    })
+    .catch(err => {
+      res.status(500).json({ message: "The post information could not be modified" })
     })
 })
 

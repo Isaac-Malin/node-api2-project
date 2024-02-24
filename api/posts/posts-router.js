@@ -83,4 +83,5 @@ router.delete('/:id', (req, res) => {
       res.status(500).json({ message: "The post could not be removed" })
     })
 })
+
 module.exports = router

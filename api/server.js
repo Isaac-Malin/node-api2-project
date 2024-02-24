@@ -11,5 +11,4 @@ server.use('/api/posts', postsRouter)
 server.get('/', (req, res) => {
   res.status(202).send("Hello from the posts server")
 })
-
 module.exports = server
